@@ -218,9 +218,9 @@
   }
 
   .article-body p {
-    margin-bottom: 1.8rem;
+    margin-bottom: 1.2rem;
     margin-top: 0;
-    line-height: 1.85;
+    line-height: 1.75;
   }
 
   .article-body p + p {
@@ -234,8 +234,8 @@
     font-family: var(--font-serif), Georgia, serif;
     font-weight: 900;
     color: var(--brand-blue-primary);
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
     line-height: 1.25;
   }
 

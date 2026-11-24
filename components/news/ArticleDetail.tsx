@@ -48,6 +48,19 @@ function ShareBar({ title, slug }: { title: string; slug: string }) {
     )
 }
 
+function formatArticleContent(content: string): string {
+    if (!content) return ''
+    const hasBlockHtml = /<(p|div|br|h[1-6]|ul|ol|blockquote|table|figure)\b/i.test(content)
+    if (hasBlockHtml) return content
+
+    return content
+        .split(/\r?\n\s*\r?\n|\r?\n/)
+        .map(line => line.trim())
+        .filter(Boolean)
+        .map(line => `<p>${line}</p>`)
+        .join('\n')
+}
+
 export async function ArticleDetail({ article }: ArticleDetailProps) {
     const relatedArticles = await getRelatedArticles(article)
 
@@ -104,7 +117,7 @@ export async function ArticleDetail({ article }: ArticleDetailProps) {
 
                     {/* Summary */}
                     {article.summary && (
-                        <p className="text-lg text-white/70 max-w-3xl leading-relaxed border-l-4 border-brand-red/60 pl-5 mb-8">
+                        <p className="text-lg text-white/85 max-w-3xl leading-relaxed border-l-4 border-brand-red pl-5 mb-8">
                             {article.summary}
                         </p>
                     )}
@@ -144,17 +157,25 @@ export async function ArticleDetail({ article }: ArticleDetailProps) {
 
                             {/* Featured Image */}
                             {article.image && (
-                                <div className="relative w-full aspect-[16/9]">
+                                <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-900">
+                                    <Image
+                                        src={article.image}
+                                        alt=""
+                                        fill
+                                        aria-hidden="true"
+                                        className="object-cover blur-2xl scale-110 opacity-65"
+                                        sizes="(max-width: 768px) 100vw, 800px"
+                                    />
                                     <Image
                                         src={article.image}
                                         alt={article.title}
                                         fill
-                                        className="object-cover"
+                                        className="object-contain z-10"
                                         priority
                                         sizes="(max-width: 768px) 100vw, 800px"
                                     />
-                                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
-                                        <span className="text-[9px] text-white/60 font-bold uppercase tracking-widest">
+                                    <div className="absolute bottom-0 left-0 right-0 z-20 bg-gradient-to-t from-black/70 via-black/30 to-transparent p-4">
+                                        <span className="text-[10px] text-white/80 font-bold uppercase tracking-widest">
                                             Foto: Reprodução / Portal do Sudoeste
                                         </span>
                                     </div>
@@ -170,7 +191,7 @@ export async function ArticleDetail({ article }: ArticleDetailProps) {
                             <div className="prose prose-lg max-w-none prose-a:text-brand-blue-primary hover:prose-a:text-brand-red prose-img:rounded-sm">
                                 <div
                                     className="article-body wp-content px-6 md:px-10 py-8"
-                                    dangerouslySetInnerHTML={{ __html: article.content || '' }}
+                                    dangerouslySetInnerHTML={{ __html: formatArticleContent(article.content || '') }}
                                 />
                             </div>
 
