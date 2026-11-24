@@ -157,20 +157,21 @@ export async function ArticleDetail({ article }: ArticleDetailProps) {
 
                             {/* Featured Image */}
                             {article.image && (
-                                <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-900">
+                                <div className="relative w-full aspect-[16/9] overflow-hidden bg-gray-950">
                                     <Image
                                         src={article.image}
                                         alt=""
                                         fill
                                         aria-hidden="true"
-                                        className="object-cover blur-2xl scale-110 opacity-65"
+                                        className="object-cover animate-ambient-blur opacity-85"
+                                        style={{ filter: "blur(36px) saturate(1.35) brightness(0.6)" }}
                                         sizes="(max-width: 768px) 100vw, 800px"
                                     />
                                     <Image
                                         src={article.image}
                                         alt={article.title}
                                         fill
-                                        className="object-contain z-10"
+                                        className="object-contain z-10 drop-shadow-[0_10px_35px_rgba(0,0,0,0.75)]"
                                         priority
                                         sizes="(max-width: 768px) 100vw, 800px"
                                     />
